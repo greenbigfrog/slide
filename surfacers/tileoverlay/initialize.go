@@ -2,12 +2,13 @@ package tileoverlay
 
 import (
 	"image/color"
+	"slide"
+	"slide/surfacers"
+	"slide/utils"
+	"slide/utils/smoothsurface"
 
-	"github.com/paulmach/go.geo"
-	"github.com/paulmach/slide"
-	"github.com/paulmach/slide/surfacers"
-	"github.com/paulmach/slide/utils"
-	"github.com/paulmach/slide/utils/smoothsurface"
+	"github.com/lucasb-eyer/go-colorful"
+	geo "github.com/paulmach/go.geo"
 )
 
 // defaults for newly created ImageOverlaySurface.
@@ -84,22 +85,27 @@ func New(
 // ColorValue takes an image color and the targetColor to compute a value within the [0,1] for the surface.
 // Currently it does a simple ratio of image/base. However, this does not for for black.
 // TODO: improve this!
-func ColorValue(image, targetColor color.Color) float64 {
-	ri, bi, gi, _ := targetColor.RGBA()
-	r, b, g, _ := image.RGBA()
-	ratio := float64(r) / float64(ri)
+func ColorValue(c, targetColor color.Color) float64 {
+	// ri, bi, gi, _ := targetColor.RGBA()
+	// r, b, g, _ := color.RGBA()
+	// ratio := float64(r) / float64(ri)
 
-	if ratio*float64(gi) == float64(g) && ratio*float64(bi) == float64(b) {
-		return ratio
+	// if ratio*float64(gi) == float64(g) && ratio*float64(bi) == float64(b) {
+	// 	return ratio
+	// }
+	white := colorful.Color{255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0}
+	co, _ := colorful.MakeColor(c)
+	num := 1 - white.DistanceCIE94(co)
+	if num < 0 {
+		num = 0
 	}
-
-	return 0
+	return num
 }
 
 // Build goes through the whole process of building the surface:
-//  - figures out the proper zoom and tiles to download
-//  - downloads those tiles
-//  - smooths the surface, per the options
+//   - figures out the proper zoom and tiles to download
+//   - downloads those tiles
+//   - smooths the surface, per the options
 func (surfacer *Surface) Build() error {
 	if surfacer.lnglatBound.Empty() {
 		return surfacers.ErrBoundEmpty

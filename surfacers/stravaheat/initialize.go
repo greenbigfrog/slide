@@ -1,11 +1,12 @@
 package stravaheat
 
 import (
-	"github.com/paulmach/go.geo"
-	"github.com/paulmach/slide"
-	"github.com/paulmach/slide/surfacers"
-	"github.com/paulmach/slide/utils"
-	"github.com/paulmach/slide/utils/smoothsurface"
+	"slide"
+	"slide/surfacers"
+	"slide/utils"
+	"slide/utils/smoothsurface"
+
+	geo "github.com/paulmach/go.geo"
 )
 
 // defaults for newly created StravaHeatSurfaces.
@@ -68,9 +69,9 @@ func New(
 }
 
 // Build goes through the whole process of building the surface:
-//  - figures out the proper zoom and tiles to download
-//  - downloads those tiles
-//  - smooths the surface, per the options
+//   - figures out the proper zoom and tiles to download
+//   - downloads those tiles
+//   - smooths the surface, per the options
 func (surfacer *Surface) Build() error {
 	if surfacer.lnglatBound.Empty() {
 		return surfacers.ErrBoundEmpty

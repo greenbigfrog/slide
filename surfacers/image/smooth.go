@@ -1,9 +1,10 @@
 package image
 
 import (
-	"github.com/paulmach/go.geo"
-	"github.com/paulmach/slide/utils"
-	"github.com/paulmach/slide/utils/smoothsurface"
+	"slide/utils"
+	"slide/utils/smoothsurface"
+
+	geo "github.com/paulmach/go.geo"
 )
 
 // Resmooth takes the data pulled in from the tiles and applies a new smoothing

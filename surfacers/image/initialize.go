@@ -3,11 +3,11 @@ package image
 import (
 	"image"
 	"image/color"
+	"slide"
+	"slide/surfacers"
+	"slide/utils/smoothsurface"
 
-	"github.com/paulmach/go.geo"
-	"github.com/paulmach/slide"
-	"github.com/paulmach/slide/surfacers"
-	"github.com/paulmach/slide/utils/smoothsurface"
+	geo "github.com/paulmach/go.geo"
 )
 
 const (

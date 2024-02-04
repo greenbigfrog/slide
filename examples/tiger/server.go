@@ -10,11 +10,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/paulmach/go.geo"
+	"slide"
+	"slide/reducers"
+	"slide/surfacers/tileoverlay"
+
+	geo "github.com/paulmach/go.geo"
 	"github.com/paulmach/reducer"
-	"github.com/paulmach/slide"
-	"github.com/paulmach/slide/reducers"
-	"github.com/paulmach/slide/surfacers/tileoverlay"
 )
 
 // some defaults
@@ -49,6 +50,11 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
+func HexColor(hex string) color.RGBA {
+	values, _ := strconv.ParseUint(string(hex[1:]), 16, 32)
+	return color.RGBA{R: uint8(values >> 16), G: uint8((values >> 8) & 0xFF), B: uint8(values & 0xFF), A: 255}
+}
+
 func slideHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	paths := []*geo.Path{geo.Decode(r.FormValue("path"), 1e6)}
@@ -62,9 +68,11 @@ func slideHandler(w http.ResponseWriter, r *http.Request) {
 
 	tigerSurfacer := tileoverlay.New(
 		paths[0].Bound(),
-		"http://a.tiles.mapbox.com/v3/enf.y5c4ygb9,enf.ho20a3n1,enf.game1617/{z}/{x}/{y}.png", // tile source
+		// "http://a.tiles.mapbox.com/v3/enf.y5c4ygb9,enf.ho20a3n1,enf.game1617/{z}/{x}/{y}.png", // tile source
+		// "https://strava-heatmap.tiles.freemap.sk/run/hot/{z}/{x}/{y}.png",
+		"http://localhost:80/{x}/{y}.png",
 		smoothingSD,
-		color.NRGBA{R: 255, G: 255, B: 0, A: 255}, // target color (yellow)
+		HexColor("#f2da15"),
 	)
 
 	surfacerStartTime := time.Now()

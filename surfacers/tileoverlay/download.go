@@ -2,14 +2,16 @@ package tileoverlay
 
 import (
 	"image"
+	"slide/utils"
 	"sync"
 
-	"github.com/paulmach/slide/utils"
-)
+	_ "image/png"
 
-import _ "image/png" // to support tiles in these formats automatically
-import _ "image/jpeg"
-import _ "image/gif"
+	// to support tiles in these formats automatically
+	_ "image/jpeg"
+
+	_ "image/gif"
+)
 
 func (surfacer *Surface) downloadTiles() error {
 	// for the tiles, 0,0 is northwest. For the surface, 0,0 is south west

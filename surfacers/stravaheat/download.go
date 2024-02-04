@@ -2,9 +2,8 @@ package stravaheat
 
 import (
 	"encoding/json"
+	"slide/utils"
 	"sync"
-
-	"github.com/paulmach/slide/utils"
 )
 
 // tileData mimics the data returned by the strava endpoint.

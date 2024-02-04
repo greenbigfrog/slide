@@ -6,16 +6,17 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/paulmach/go.geo"
+	slide_reducers "slide/reducers"
+
+	geo "github.com/paulmach/go.geo"
 	geo_reducers "github.com/paulmach/go.geo/reducers"
-	slide_reducers "github.com/paulmach/slide/reducers"
 )
 
 // Optimization Parameter defaults
 const (
 	DefaultMinLoops         = 100
 	DefaultMaxLoops         = 4000
-	DefaultThresholdEpsilon = 0.0005
+	DefaultThresholdEpsilon = 0.001
 
 	DefaultResampleInterval = 5.0 // meters
 )
